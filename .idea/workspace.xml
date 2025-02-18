@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4b3ed5a-a51c-46d7-b3fd-b055ed074a68" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/itzpradip/expo-news-app-starter.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/KavinduSenesh/react-native-news-app.git&quot;,
     &quot;accountId&quot;: &quot;d8437ea9-b621-4187-8918-5acea77621e6&quot;
   }
 }</component>
@@ -87,6 +87,9 @@
       <option name="presentableId" value="Default" />
       <updated>1739809208948</updated>
       <workItem from="1739809212320" duration="2855000" />
+      <workItem from="1739860148557" duration="143000" />
+      <workItem from="1739861122290" duration="5297000" />
+      <workItem from="1739868306271" duration="3471000" />
     </task>
     <servers />
   </component>
