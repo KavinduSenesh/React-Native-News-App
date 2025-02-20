@@ -21,7 +21,7 @@ const BreakingNews = ({newsList}: Props) => {
     const [paginationIndex, setPaginationIndex] = useState(0);
     const scrollX = useSharedValue(0);
     const ref = useAnimatedRef<Animated.FlatList<any>>();
-    const [isAutoPlay, setAutoPlay] = useState(true);
+    const [isAutoPlay, setIsAutoPlay] = useState(true);
     const interval = useRef<NodeJS.Timeout>();
     const offset = useSharedValue(0);
     const {width} = useWindowDimensions();
@@ -87,6 +87,12 @@ const BreakingNews = ({newsList}: Props) => {
                             onEndReachedThreshold={0.5}
                             onEndReached={() => setData([...data, ...newsList])}
                             viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+                            onScrollBeginDrag={() => {
+                                setIsAutoPlay(false);
+                            }}
+                            onScrollEndDrag={() => {
+                                setIsAutoPlay(true);
+                            }}
 
                 />
                 <Pagination items={newsList} scrollX={scrollX} paginationIndex={paginationIndex}/>
