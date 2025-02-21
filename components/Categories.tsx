@@ -4,10 +4,10 @@ import newsCategoryList from "@/constants/Categories";
 import {useRef, useState} from "react";
 
 type Props = {
-
+    onCategoryChanged: (category: string) => void;
 }
 
-const Categories = (props: Props) => {
+const Categories = ({onCategoryChanged}: Props) => {
     const  scrollRef = useRef<ScrollView>(null);
     const itemRef = useRef<TouchableOpacity[] | null[]>([]);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -30,9 +30,9 @@ const Categories = (props: Props) => {
                 scrollRef.current?.scrollTo({ x: x - 20, y: 0, animated: true });
             });
         }
-    };
 
-    
+        onCategoryChanged(newsCategoryList[index].slug);
+    };
 
     return (
         <View>
