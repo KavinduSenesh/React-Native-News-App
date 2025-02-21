@@ -2,11 +2,13 @@ import {View, Text, StyleSheet, TextInput} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {Colors} from "@/constants/Colors";
 
-type Props = {}
+type Props = {
+    withHorizontalPadding: boolean;
+};
 
-const SearchBar = (props: Props) => {
+const SearchBar = ({withHorizontalPadding}: Props) => {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, withHorizontalPadding && {paddingHorizontal: 20}]}>
             <View style={styles.searchBar}>
                 <Ionicons name={'search-outline'} size={20} color={Colors.lightGrey}/>
                 <TextInput
@@ -24,7 +26,7 @@ export default SearchBar
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
         marginBottom: 20,
     },
     searchBar: {

@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {NewsDataType} from "@/types";
 import Loading from "@/components/Loading";
 import {Colors} from "@/constants/Colors";
+import Moment from "moment";
 
 type Props = {}
 
@@ -46,20 +47,28 @@ const NewsDetails = (props: Props) => {
                     <Ionicons name='heart-outline' size={22} />
                 </TouchableOpacity>
             ),
-            title: ''
-        }} />
+            title: "",
+        }}
+        />
         {isLoading ? (
             <Loading size={'large'}/>
         ) : (
             <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
                 <View>
-                    <Text>{news[0].title}</Text>
+                    <Text style={styles.title}>{news[0].title}</Text>
                     <View style={styles.newsInfoWrapper}>
-                        <Text style={styles.newsInfo}>{news[0].pubDate}</Text>
+                        <Text style={styles.newsInfo}>
+                            {Moment(news[0].pubDate).format('MMMM DD, hh:mm a')}
+                        </Text>
                         <Text style={styles.newsInfo}>{news[0].source_name}</Text>
                     </View>
                     <Image source={{uri: news[0].image_url}} style={styles.newsImage}/>
-                    <Text>{news[0].content}</Text>
+                    {news[0].content ? (
+                        <Text style={styles.newsContent}>{news[0].content}</Text>
+                    ) : (
+                        <Text style={styles.newsContent}>{news[0].description}</Text>
+                    )}
+                    <Text style={styles.newsContent}>{news[0].content}</Text>
                 </View>
             </ScrollView>
         )}
@@ -78,10 +87,32 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         paddingBottom: 30,
     },
+    title: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: Colors.black,
+        marginVertical: 16,
+        letterSpacing: 0.6
+    },
     newsImage: {
         width: '100%',
         height: 300,
         borderRadius: 10,
         marginBottom: 20,
+    },
+    newsInfoWrapper: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        marginBottom: 20,
+    },
+    newsInfo: {
+        fontSize: 12,
+        color: Colors.darkGrey,
+    },
+    newsContent: {
+        fontSize: 14,
+        color: '#555',
+        letterSpacing: 0.8,
+        lineHeight: 22,
     }
 })
