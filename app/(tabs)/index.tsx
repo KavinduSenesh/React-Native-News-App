@@ -8,36 +8,61 @@ import {NewsDataType} from "@/types";
 import BreakingNews from "@/components/BreakingNews";
 import Categories from "@/components/Categories";
 import NewsList from "@/components/NewsList";
+import Loading from "@/components/Loading";
 
 type Props = {}
 
 const Page = (props: Props) => {
   const {top: safeTop} = useSafeAreaInsets();
   const [breakingNews, setBreakingNews] = useState<NewsDataType[]>([]);
+  const [news, setNews] = useState<NewsDataType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
+  useEffect(() => {
         getBreakingNews();
-    }, []);
+        getNews();
+  }, []);
 
   const getBreakingNews = async () => {
     try {
-      const url = `https://newsdata.io/api/1/news?apikey=${process.env.EXPO_PUBLIC_API_KEY}&country=lk&language=si&image=1&removeduplicate=1`;
+      const url = `https://newsdata.io/api/1/news?apikey=${process.env.EXPO_PUBLIC_API_KEY}&country=us&language=en&image=1&removeduplicate=1&size=5`;
       const response = await axios.get(url);
 
-      console.log(response.data);
+      // console.log(response.data);
       if (response && response.data) {
           setBreakingNews(response.data.results);
           setIsLoading(false);
       }
-
     }catch (err: any) {
       console.log('Error Message: ', err.message);
     }
-  }
+  };
 
-  const onCatChanged = (category: string) => {
+    const getNews = async (category:string = '') => {
+        try {
+            let  categoryString = '';
+            if ( category.length  !== 0 ) {
+                categoryString = `&category=${category}`
+            }
+
+            const url = `https://newsdata.io/api/1/news?apikey=${process.env.EXPO_PUBLIC_API_KEY}&country=us&language=en&image=1&removeduplicate=1&size=10${categoryString}`;
+            const response = await axios.get(url);
+
+            console.log(response.data);
+            if (response && response.data) {
+                setNews(response.data.results);
+                setIsLoading(false);
+            }
+
+        }catch (err: any) {
+            console.log('Error Message: ', err.message);
+        }
+    }
+
+  const onCatChanged = (category: string = '') => {
       console.log('Category: ', category);
+      setNews([]);
+      getNews(category);
   }
 
   return (
@@ -46,13 +71,12 @@ const Page = (props: Props) => {
       <SearchBar/>
         {
             isLoading ?
-                <ActivityIndicator size={'large'}/>
+                <Loading size={'large'}/>
             :
                 <BreakingNews newsList={breakingNews}/>
         }
-      {/*<BreakingNews newsList={breakingNews}/>*/}
       <Categories onCategoryChanged={onCatChanged}/>
-      <NewsList newsList={breakingNews}/>
+      <NewsList newsList={news}/>
     </ScrollView>
   )
 }

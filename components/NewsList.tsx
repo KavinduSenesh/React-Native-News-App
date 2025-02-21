@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import {NewsDataType} from "@/types";
 import {Colors} from "@/constants/Colors";
+import Loading from "@/components/Loading";
 
 type Props = {
     newsList: Array<NewsDataType>
@@ -9,7 +10,10 @@ type Props = {
 const NewsList = ({newsList}: Props) => {
     return (
         <View style={styles.container}>
-            {newsList.map((item, index) => (
+            {newsList.length == 0 ? (
+                <Loading size={'large'}/>
+            ) : (
+            newsList.map((item, index) => (
               <View key={index} style={styles.itemContainer}>
                   <Image source={{uri: item.image_url}} style={styles.itemImg}/>
                   <View style={styles.itemInfo}>
@@ -25,7 +29,8 @@ const NewsList = ({newsList}: Props) => {
                       </View>
                   </View>
               </View>
-            ))}
+            ))
+           )}
         </View>
     )
 }
@@ -35,19 +40,20 @@ export default NewsList;
 const styles = StyleSheet.create({
    container: {
        marginHorizontal: 20,
+       marginBottom: 50,
    },
     itemContainer: {
        flexDirection: 'row',
        alignItems: 'center',
-        marginBottom: 20,
-        flex: 1,
-        gap: 10
+       marginBottom: 20,
+       flex: 1,
+       gap: 10
     },
     itemImg: {
        width: 90,
        height: 100,
-        borderRadius: 20,
-        marginRight: 10,
+       borderRadius: 20,
+       marginRight: 10,
     },
     itemInfo: {
         flex: 1,

@@ -93,7 +93,9 @@ const BreakingNews = ({newsList}: Props) => {
                             onScrollEndDrag={() => {
                                 setIsAutoPlay(true);
                             }}
-
+                    initialNumToRender={3}  // ✅ Improves performance
+                    maxToRenderPerBatch={5} // ✅ Limits batch size
+                    windowSize={7}
                 />
                 <Pagination items={newsList} scrollX={scrollX} paginationIndex={paginationIndex}/>
             </View>
