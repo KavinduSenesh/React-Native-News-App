@@ -5,12 +5,14 @@ import axios from "axios";
 import {Link, Stack} from "expo-router";
 import Loading from "@/components/Loading";
 import {NewsItem} from "@/components/NewsList";
+import {useIsFocused} from "@react-navigation/core";
 
 type Props = {}
 
 const Page = (props: Props) => {
   const [bookmarksNews, setBookmarkNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
 
   const fetchBookmarks = async () => {
     await AsyncStorage.getItem('bookmarks').then(async (token) => {
@@ -33,29 +35,30 @@ const Page = (props: Props) => {
 
   useEffect(() => {
     fetchBookmarks();
-  }, []);
+  }, [isFocused]);
 
   return (
       <>
         <Stack.Screen options={{
           headerShown: true,
+          headerTitleAlign: 'center',
         }}/>
         <View style={styles.container}>
           {isLoading ? (
               <Loading size={'large'}/>
           ) : (
               <FlatList data={bookmarksNews}
-                        keyExtractor={(_, index) => `list_item${index}`}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({index, item} ) => {
-                          return(
-                              <Link href={`/news/${item.article_id}`} asChild key={index}>
-                                <TouchableOpacity>
-                                  <NewsItem item={item}/>
-                                </TouchableOpacity>
-                              </Link>
-                          );
-                        }}
+                   keyExtractor={(_, index) => `list_item${index}`}
+                   showsVerticalScrollIndicator={false}
+                   renderItem={({index, item} ) => {
+                   return(
+                       <Link href={`/news/${item.article_id}`} asChild key={index}>
+                           <TouchableOpacity>
+                               <NewsItem item={item}/>
+                           </TouchableOpacity>
+                           </Link>
+                   );
+              }}
               />
           )}
         </View>
