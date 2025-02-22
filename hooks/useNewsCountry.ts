@@ -1,13 +1,13 @@
-import newsCategoryList from "@/constants/Categories";
 import { useCallback, useState } from "react"
+import CountryList from "@/constants/CountryList";
 
-const useNewsCategories = () => {
-    const [newsCategories, setNewsCategories] = useState(newsCategoryList);
+const useNewsCountries = () => {
+    const [newsCountries, setNewsCountries] = useState(CountryList);
 
-    const toggleNewsCategory = useCallback((id: number) => {
-        setNewsCategories((prevNewsCategories) => {
-            return prevNewsCategories.map((item) => {
-                if (item.id === id) {
+    const toggleNewsCountry = useCallback((id: number) => {
+        setNewsCountries((prevNewsCountries) => {
+            return prevNewsCountries.map((item, index) => {
+                if (index === id) {
                     return {
                         ...item,
                         selected: !item.selected
@@ -19,9 +19,9 @@ const useNewsCategories = () => {
     }, []);
 
     return{
-        newsCategories,
-        toggleNewsCategory
+        newsCountries,
+        toggleNewsCountry
     }
 }
 
-export {useNewsCategories}
+export {useNewsCountries}

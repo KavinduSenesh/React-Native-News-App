@@ -7,6 +7,9 @@ import {NewsDataType} from "@/types";
 import Loading from "@/components/Loading";
 import {Colors} from "@/constants/Colors";
 import Moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import values from "ajv/lib/vocabularies/jtd/values";
+import {string} from "prop-types";
 
 type Props = {}
 
@@ -14,10 +17,17 @@ const NewsDetails = (props: Props) => {
     const {id} = useLocalSearchParams<{id: string}>();
     const [news, setNews] = useState<NewsDataType[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [bookmark, setBookmark] = useState<boolean>(false);
 
     useEffect(() => {
         getNews();
     }, []);
+
+    useEffect(() => {
+        if (!isLoading){
+            renderBookmark(news[0].article_id);
+        }
+    }, [isLoading]);
 
     const getNews = async () => {
         try {
@@ -34,17 +44,64 @@ const NewsDetails = (props: Props) => {
         }
     };
 
+    const saveBookmark = async (newsId: string) => {
+        setBookmark(true);
+        await AsyncStorage.getItem('bookmarks').then((token) => {
+            const res = JSON.parse(token);
+            if (res !== null) {
+                let data = res.find((values: string) => values === newsId);
+                if (data == null) {
+                    res.push(newsId);
+                    AsyncStorage.setItem('bookmarks', JSON.stringify(res));
+                    alert('News has been bookmarked');
+                }
+            } else {
+                let bookmarks = [];
+                bookmarks.push(newsId);
+                AsyncStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                alert('News has been bookmarked');
+            }
+        });
+    };
+
+    const removeBookmark = async (newsId: string) => {
+        setBookmark(false);
+        const bookmark = await AsyncStorage.getItem('bookmarks').then((token) => {
+            const res = JSON.parse(token);
+            return res.filter((id: string) => id !== newsId);
+        })
+        await AsyncStorage.setItem('bookmarks', JSON.stringify(bookmark));
+        alert('News has been removed from bookmarks');
+    }
+
+    const renderBookmark = async (newsId: string) => {
+        await AsyncStorage.getItem('bookmarks').then((token) => {
+            const res = JSON.parse(token);
+            if (res != null) {
+                let data = res.find((values: string) => values === newsId);
+                return data == null ? setBookmark(false) : setBookmark(true);
+            }
+        });
+    }
     return (
         <>
-        <Stack. Screen options={{
+        <Stack.Screen options={{
             headerLeft: () => (
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name='arrow-back' size={22} />
                 </TouchableOpacity>
             ),
             headerRight: () => (
-                <TouchableOpacity onPress={() => {}}>
-                    <Ionicons name='heart-outline' size={22} />
+                <TouchableOpacity
+                    onPress={() =>
+                        bookmark
+                            ? removeBookmark(news[0].article_id)
+                            : saveBookmark(news[0].article_id)
+                    }
+                >
+                    <Ionicons name={bookmark ? 'heart' :  'heart-outline'}
+                              size={22}
+                              color={bookmark ? "red" : Colors.black} />
                 </TouchableOpacity>
             ),
             title: "",

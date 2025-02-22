@@ -18,7 +18,10 @@ const Page = (props: Props) => {
   const [news, setNews] = useState<NewsDataType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+
+    useEffect(() => {
         getBreakingNews();
         getNews();
   }, []);
@@ -57,7 +60,7 @@ const Page = (props: Props) => {
         }catch (err: any) {
             console.log('Error Message: ', err.message);
         }
-    }
+    };
 
   const onCatChanged = (category: string = '') => {
       console.log('Category: ', category);
@@ -68,7 +71,7 @@ const Page = (props: Props) => {
   return (
     <ScrollView style={[styles.container, {paddingTop: safeTop}]}>
       <Header />
-      <SearchBar withHorizontalPadding={true}/>
+      <SearchBar withHorizontalPadding={true} setSearchQuery={setSearchQuery}/>
         {
             isLoading ?
                 <Loading size={'large'}/>
