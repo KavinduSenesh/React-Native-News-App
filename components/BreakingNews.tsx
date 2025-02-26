@@ -72,7 +72,7 @@ const BreakingNews = ({newsList}: Props) => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Breaking News</Text>
+            <Text style={styles.title}>       </Text>
             <View style={styles.sideWrapper}>
                 <Animated.FlatList
                     ref={ref}
