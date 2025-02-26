@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, TouchableOpacity, ScrollView, Image} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Animated} from "react-native";
 import {router, Stack, useLocalSearchParams} from "expo-router";
 import {Ionicons} from "@expo/vector-icons";
 import axios from "axios";
@@ -10,10 +10,12 @@ import Moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import values from "ajv/lib/vocabularies/jtd/values";
 import {string} from "prop-types";
+import {FadeInDown} from "react-native-reanimated";
 
 type Props = {}
 
 const NewsDetails = (props: Props) => {
+
     const {id} = useLocalSearchParams<{id: string}>();
     const [news, setNews] = useState<NewsDataType[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -105,32 +107,65 @@ const NewsDetails = (props: Props) => {
                 </TouchableOpacity>
             ),
             title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+                backgroundColor: Colors.white,
+            }
         }}
         />
         {isLoading ? (
             <Loading size={'large'}/>
         ) : (
-            <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
-                <View>
-                    <Text style={styles.title}>{news[0].title}</Text>
-                    <View style={styles.newsInfoWrapper}>
+            <ScrollView
+                contentContainerStyle={styles.contentContainer}
+                style={styles.container}
+                showsVerticalScrollIndicator={false}
+            >
+            <Animated.View entering={FadeInDown.delay(100).duration(400)}>
+                <Text style={styles.title}>{news[0].title}</Text>
+                <View style={styles.newsInfoWrapper}>
+                    <View style={styles.dateContainer}>
+                        <Ionicons name="time-outline" size={14} color={Colors.darkGrey} />
                         <Text style={styles.newsInfo}>
                             {Moment(news[0].pubDate).format('MMMM DD, hh:mm a')}
                         </Text>
+                    </View>
+                    <View style={styles.sourceContainer}>
+                        <Ionicons name="newspaper-outline" size={14} color={Colors.darkGrey} />
                         <Text style={styles.newsInfo}>{news[0].source_name}</Text>
                     </View>
-                    <Image source={{uri: news[0].image_url}} style={styles.newsImage}/>
-                    {news[0].content ? (
-                        <Text style={styles.newsContent}>{news[0].content}</Text>
-                    ) : (
-                        <Text style={styles.newsContent}>{news[0].description}</Text>
-                    )}
-                    <Text style={styles.newsContent}>{news[0].content}</Text>
                 </View>
-            </ScrollView>
-        )}
-        </>
-    )
+            </Animated.View>
+        {news[0].image_url && (
+            <Animated.View entering={FadeInDown.delay(200).duration(400)}>
+        <Image
+            source={{uri: news[0].image_url}}
+            style={styles.newsImage}
+            resizeMode="cover"
+        />
+        </Animated.View>
+    )}
+    <Animated.View entering={FadeInDown.delay(300).duration(400)}>
+         {news[0].content ? (
+               <Text style={styles.newsContent}>{news[0].content}</Text>
+         ) : (
+               <Text style={styles.newsContent}>{news[0].description}</Text>
+         )}
+         </Animated.View>
+
+         {news[0].category && (
+             <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.categoryContainer}>
+                  {Array.isArray(news[0].category) && news[0].category.map((cat, index) => (
+                      <View key={index} style={styles.categoryTag}>
+                          <Text style={styles.categoryText}>{cat}</Text>
+                      </View>
+                  ))}
+             </Animated.View>
+         )}
+    </ScrollView>
+   )}
+   </>
+   )
 }
 
 export default NewsDetails;
@@ -141,35 +176,81 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     contentContainer: {
-        marginHorizontal: 20,
-        paddingBottom: 30,
+        paddingHorizontal: 16,
+        paddingBottom: 40,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.white,
+    },
+    headerButton: {
+        padding: 8,
+        borderRadius: 20,
     },
     title: {
-        fontSize: 16,
-        fontWeight: "600",
+        fontSize: 22,
+        fontWeight: "700",
         color: Colors.black,
-        marginVertical: 16,
-        letterSpacing: 0.6
+        marginTop: 16,
+        marginBottom: 12,
+        letterSpacing: 0.6,
+        lineHeight: 30,
     },
     newsImage: {
         width: '100%',
-        height: 300,
-        borderRadius: 10,
-        marginBottom: 20,
+        height: 250,
+        borderRadius: 16,
+        marginVertical: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     newsInfoWrapper: {
         flexDirection: 'row',
         justifyContent: "space-between",
-        marginBottom: 20,
+        marginBottom: 8,
+    },
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+    },
+    sourceContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
     },
     newsInfo: {
         fontSize: 12,
         color: Colors.darkGrey,
+        fontWeight: '500',
     },
     newsContent: {
-        fontSize: 14,
-        color: '#555',
-        letterSpacing: 0.8,
-        lineHeight: 22,
+        fontSize: 16,
+        color: '#374151',
+        letterSpacing: 0.5,
+        lineHeight: 24,
+        marginBottom: 24,
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 8,
+        marginTop: 16,
+    },
+    categoryTag: {
+        backgroundColor: '#F3F4F6',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 16,
+    },
+    categoryText: {
+        fontSize: 12,
+        color: Colors.tint || '#FF6B6B',
+        fontWeight: '600',
     }
 })
