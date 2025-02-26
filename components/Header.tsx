@@ -8,10 +8,10 @@ const Header = (props: Props) => {
     return (
         <View style={styles.container}>
             <View style= {styles.userInfo}>
-                <Image source={{uri: 'https://xsgames.co/randomusers/avatar.php?g=male'}} style={styles.userImg}/>
+                {/*<Image source={{uri: 'https://img.icons8.com/?size=100&id=E2o3rczdb5wU&format=png&color=000000'}} style={styles.userImg}/>*/}
             <View style={{gap: 3}}>
                 <Text style={styles.welcomeText}>Welcome</Text>
-                <Text style={styles.userName}>Kavindu!</Text>
+                {/*<Text style={styles.userName}>Kavindu!</Text>*/}
             </View>
             </View>
             <TouchableOpacity onPress={() => {}}>
@@ -42,8 +42,9 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     welcomeText: {
-        fontSize: 12,
+        fontSize: 15,
         color: Colors.darkGrey,
+        fontWeight: "800"
     },
     userName: {
         fontSize: 14,
