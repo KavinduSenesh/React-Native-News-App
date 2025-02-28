@@ -4,11 +4,10 @@ A simple and responsive React Native application that fetches and displays the l
 
 ## 🚀 Features
 
-- 📢 Fetches the latest news dynamically.
-- 🔍 Search functionality to find specific news articles.
-- 🌄 Dark mode support.
-- ⚡ Optimized performance using Redux.
-- 🌍 Supports multiple news sources.
+-  Fetches the latest news dynamically.
+-  Search functionality to find specific news articles.
+-  Optimized performance using Redux.
+-  Supports multiple news sources.
 
 ## 🛠️ Tech Stack
 
