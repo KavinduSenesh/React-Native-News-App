@@ -1,25 +1,53 @@
-# Expo News App Starter Template 👋
+# React Native News App
 
-This is a starter template for the expo news app tutorial on my YouTube channel.
+A simple and responsive React Native application that fetches and displays the latest news from an API. Built with **React Native, TypeScript, and Redux**, this app provides a clean UI and smooth user experience.
 
-## Get started
+## 🚀 Features
 
-1. Install dependencies
+- 📢 Fetches the latest news dynamically.
+- 🔍 Search functionality to find specific news articles.
+- 🌄 Dark mode support.
+- ⚡ Optimized performance using Redux.
+- 🌍 Supports multiple news sources.
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Tech Stack
 
-2. Start the app
+- **React Native** – Cross-platform mobile app framework.
+- **TypeScript** – Statically typed JavaScript.
+- **Redux** – State management.
+- **React Navigation** – Smooth app navigation.
+- **Axios** – Fetching data from the news API.
 
-   ```bash
-    npx expo start
-   ```
+## 🏠 Installation
 
-Extra dependencies added here
+### 1️⃣ Clone the repository  
+```sh
+git clone https://github.com/KavinduSenesh/react-native-news-app.git
+cd react-native-news-app
+```
 
-- [Axios](https://www.npmjs.com/package/axios)
-- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/docs/install/)
-- [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
-- [Moment JS](https://www.npmjs.com/package/moment)
+### 2️⃣ Install dependencies  
+```sh
+npm install
+```
+
+### 3️⃣ Run the app  
+For Android:
+```sh
+npx react-native run-android
+```
+
+## 🔑 API Configuration
+This app fetches news from an API. To configure it:
+1. Get an API key from [NewsAPI](https://newsapi.org/).
+2. Restart the app.
+
+## 🐟 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+💡 **Contributions & Issues**  
+Feel free to contribute by opening a pull request! If you find any bugs, report them in the **Issues** section. 🚀
 
