@@ -38,6 +38,7 @@ npx react-native run-android
 
 ## 🔑 API Configuration
 This app fetches news from an API. To configure it:
+
 1. Get an API key from [NewsAPI](https://newsapi.org/).
 2. Restart the app.
 
